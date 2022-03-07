@@ -1,0 +1,20 @@
+FROM ubuntu:20.04 AS build
+
+RUN apt update && apt upgrade -y && apt install curl -y
+WORKDIR /build
+RUN curl -LO https://harmony.one/hmycli && mv hmycli hmy && chmod +x hmy
+RUN curl -LO https://harmony.one/binary && mv binary harmony && chmod +x harmony
+
+FROM ubuntu:20.04
+WORKDIR /harmony_node
+RUN mkdir -p .hmy/blskeys
+RUN mkdir db
+RUN mkdir config
+COPY --from=build /build/harmony .
+COPY --from=build /build/hmy .
+
+# CMD ["echo", "Hello Harmony"]
+# ENTRYPOINT [ "./harmony", "config", "dump", "./config/harmony.conf"]
+
+# RUN ./harmony config dump ./config/harmony.conf
+# VOLUME ./config
