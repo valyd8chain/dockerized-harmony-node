@@ -13,8 +13,4 @@ RUN mkdir config
 COPY --from=build /build/harmony .
 COPY --from=build /build/hmy .
 
-# CMD ["echo", "Hello Harmony"]
-# ENTRYPOINT [ "./harmony", "config", "dump", "./config/harmony.conf"]
-
-# RUN ./harmony config dump ./config/harmony.conf
-# VOLUME ./config
+# ENTRYPOINT [ "./harmony", "-C", "./config/harmony.conf"]
