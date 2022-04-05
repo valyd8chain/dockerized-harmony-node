@@ -1,0 +1,22 @@
+version: '3'
+services:
+  get_version:
+    container_name: get_version
+    image: rclone/rclone:latest
+    command: version
+  list_remotes:
+    container_name: list_remotes
+    image: rclone/rclone:latest
+    volumes:
+      - ./config:/config/rclone
+      - ./data:/data:rw
+    # user: $(id -u):$(id -g)
+    command: listremotes
+
+
+
+    # entrypoint: 
+    #   - ./harmony
+    #   - "config"
+    #   - "dump"
+    #   - "./config/harmony.conf"
