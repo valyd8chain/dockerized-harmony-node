@@ -1,4 +1,4 @@
-### RClone
+## RClone Setup
 1) Pull the RClone Docker Image:
     ```
     docker pull rclone/rclone:latest
@@ -21,3 +21,11 @@
                 rclone/rclone \
                 listremotes
             ```
+
+## Cloning the Harmony DB
+1) Create your `.env` file from the `.env_example` file provided: `cp .env_example .env`
+2) Edit your `.env` file to your desired Shard and network.
+3) Clone the Harmony DB:
+    - With Docker Compose: `docker-compose run --rm clone_harmony_db`
+    - WIth Docker CLI: Compose is easier just do that trust me
+4) Repeat Steps 2-3 for any additional Harmony DBs needed

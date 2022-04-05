@@ -9,14 +9,22 @@ services:
     image: rclone/rclone:latest
     volumes:
       - ./config:/config/rclone
-      - ./data:/data:rw
-    # user: $(id -u):$(id -g)
+      - ./data:/data
     command: listremotes
-
-
-
-    # entrypoint: 
-    #   - ./harmony
-    #   - "config"
-    #   - "dump"
-    #   - "./config/harmony.conf"
+  clone_harmony_db:
+    container_name: clone_harmony_db
+    image: rclone/rclone:latest
+    volumes:
+      - ./config:/config/rclone
+      - ./data:/data
+    entrypoint: 
+      - rclone
+      - -P
+      - -L
+      - --checksum
+      - sync
+      - release:pub.harmony.one/${NETWORK}.min/harmony_db_${SHARD}
+      - harmony_db_${SHARD}
+      - --multi-thread-streams
+      - "4"
+      - --transfers=32
