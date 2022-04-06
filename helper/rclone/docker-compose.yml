@@ -1,24 +1,24 @@
 version: '3'
 services:
-  # get_version:
-  #   container_name: get_version
-  #   image: rclone/rclone:latest
-  #   command: version
-  # list_remotes:
-  #   container_name: list_remotes
-  #   image: rclone/rclone:latest
-  #   volumes:
-  #     - ./config:/config/rclone
-  #     - ./data:/data
-  #   command: listremotes
-  
+  get_version:
+    container_name: get_version
+    image: rclone/rclone:latest
+    command: version
+
+  list_remotes:
+    container_name: list_remotes
+    image: rclone/rclone:latest
+    volumes:
+      - ./config:/config/rclone
+      - harmony_dbs:/data
+    command: listremotes
 
   clone_harmony_db:
     container_name: clone_harmony_db
     image: rclone/rclone:latest
     volumes:
       - ./config:/config/rclone
-      - harmony_db:/data
+      - harmony_dbs:/data
     entrypoint: 
       - rclone
       - -P
@@ -31,4 +31,5 @@ services:
       - "4"
       - --transfers=32
 volumes:
-  harmony_db:
+  harmony_dbs:
+    external: true

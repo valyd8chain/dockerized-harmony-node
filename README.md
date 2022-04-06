@@ -12,15 +12,12 @@ generate_conf:
       - "dump"
       - "./config/harmony.conf"
 ```
+# Prerequistes
+- Docker
+- Docker Compose
+- 
 
 # Setup
-
-### Dump a Harmony config file
-With Docker CLI: `docker run --rm rclone/rclone:latest version`
-`docker run --rm valyd8chain/harmony-node:latest 
-
-`docker volume create harmony_dbs`
-
 ## Create BLS Keys:
 1) Create a Docker volume to persist our BLS Keys:
     ```
@@ -44,7 +41,9 @@ With Docker CLI: `docker run --rm rclone/rclone:latest version`
 
 5) Verify your blskeys have persistented in the `blskeys` volume by running the command in Step 2 again to create a new container with our `blskeys` volume. Once in the container, run `ls .hmy/blskeys/`. If you see your keys, everything is working as expected!
 
-## Clone Harmony DB:
+## Clone Harmony DB
+
+### RClone Setup
 
 1) Create a Docker volume for our Harmony DBs:
     ```
@@ -56,4 +55,45 @@ With Docker CLI: `docker run --rm rclone/rclone:latest version`
     docker pull rclone/rclone:latest
     ```
 
-3) 
+3) Check that your RClone version is at least v1.53.2 per Harmony team [requirements](https://docs.harmony.one/home/network/validators/node-setup/syncing-db#1.-installing-rclone):
+    - With Docker CLI:
+        ```
+        docker run --rm rclone/rclone version
+        ```
+    - With Docker Compose:
+        ```
+        cd helper/rclone
+        docker-compose run --rm list_remotes
+        ```
+
+
+4) Verify RClone Configuration:
+     - We've provided a precreated `rclone.conf` file in `helper/rclone/rclone.conf`.
+        - The file should work as is, but if you need/want to make changes, feel free to edit it or generate a new one via Harmony's validator setup [guide](https://docs.harmony.one/home/network/validators/node-setup/syncing-db#2.-configuring-rclone)
+
+    - Test to make sure your config file is setup properly:
+        - With Docker Compose: 
+            ```
+            cd helper/rclone
+            docker-compose run --rm list_remotes
+            ```
+        - With Docker CLI: 
+            ```
+            docker run --rm \
+                --volume {PATH_TO}/helper/rclone/config:/config/rclone \
+                --volume harmony_dbs:/data \
+                rclone/rclone \
+                listremotes
+            ```
+
+### Clone Harmony DB
+1) `cd helper/rclone`
+2) Create your `.env` file from the `.env_example` file provided: `cp .env_example .env`
+2) Edit your `.env` file to your desired Shard and network.
+3) Clone the Harmony DB:
+    - With Docker Compose: `docker-compose run --rm clone_harmony_db`
+    - With Docker CLI: Docker Compose is easier just do that trust me
+4) Repeat Steps 2-3 for any additional Harmony DBs needed
+5) Verify your `harmony_dbs` volume has persisted by running another bash session in temporary container from `harmony-node` image `docker run -rm -t -i -v harmony_dbs:/harmony_node/dbs valyd8chain/harmony-node:latest /bin/bash` and then running `ls dbs/` when you are in the container. You should see directories for each Harmony DB that you cloned.
+
+## Generate Harmony Config File
