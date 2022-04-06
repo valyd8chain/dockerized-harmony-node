@@ -94,7 +94,9 @@ generate_conf:
     - With Docker Compose: `docker-compose run --rm clone_harmony_db`
     - With Docker CLI: Docker Compose is easier just do that, trust me
 5) Repeat Steps 3-4 for any additional Harmony DBs needed
-6) Verify your `harmony_dbs` volume has persisted by running another bash session in temporary container from `harmony-node` image `docker run -rm -t -i -v harmony_dbs:/harmony_node/dbs valyd8chain/harmony-node:latest /bin/bash` and then running `ls dbs/` when you are in the container. You should see directories for each Harmony DB that you cloned.
+6) Verify your `harmony_dbs` volume has persisted by running another bash session in temporary container from the `harmony-node` image.
+    1) `docker run -rm -t -i -v harmony_dbs:/harmony_node/dbs valyd8chain/harmony-node:latest /bin/bash`
+    2) Now in the container run `ls dbs/`. You should see directories for each Harmony DB that you cloned.
 
 ## Generate Harmony Config File
 
