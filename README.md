@@ -1,21 +1,26 @@
 
+# Table of Contents
+1) Prerequistes
+2) Setup
+3) Maintenance and Updating
+4) Disclaimer
 
-```
-generate_conf:
-    container_name: generate_conf
-    build: ../../
-    volumes:
-      - ./:/harmony_node/config
-    entrypoint: 
-      - ./harmony
-      - "config"
-      - "dump"
-      - "./config/harmony.conf"
-```
 # Prerequistes
+### Hardware
+Harmony's current requirements for running without Docker are as follows:
+- 8 core CPU
+- 16GB memory
+- 1TB storage (if using pruned DB)
+
+It is uncertain how the requirements will change from using this repo and running node in Docker.
+
+### Software:
 - Docker
 - Docker Compose
-- 
+
+### Network:
+- Ports 6000 and 9000 open on host machine
+- Router Fowarding Ports 6000 and 9000 to host machine
 
 # Setup
 ## Create BLS Keys:
@@ -25,7 +30,7 @@ generate_conf:
     ```
 2) Start a bash session with a temporary container the harmony-node image so we can create BLS Keys and write them to our `blskeys` volume.
     ```
-    docker run -rm -t -i -v blskeys:/harmony_node/.hmy/blskeys valyd8chain/harmony-node:latest /bin/bash
+    docker run --rm -t -i -v blskeys:/harmony_node/.hmy/blskeys valyd8chain/harmony-node:latest /bin/bash
     ```
 
 3) Now in container, either
@@ -95,8 +100,46 @@ generate_conf:
     - With Docker CLI: Docker Compose is easier just do that, trust me
 5) Repeat Steps 3-4 for any additional Harmony DBs needed
 6) Verify your `harmony_dbs` volume has persisted by running another bash session in temporary container from the `harmony-node` image.
-    1) `docker run -rm -t -i -v harmony_dbs:/harmony_node/dbs valyd8chain/harmony-node:latest /bin/bash`
+    1) `docker run --rm -t -i -v harmony_dbs:/harmony_node/dbs valyd8chain/harmony-node:latest /bin/bash`
     2) Now in the container run `ls dbs/`. You should see directories for each Harmony DB that you cloned.
 
-## Generate Harmony Config File
+## Harmony Config File
 
+### Generate Config File
+
+1) Create a directory called config `mkdir config`
+2) Bind the config directory and start another temporary container bash session:
+    ```
+    docker run --rm -t -i -v {PATH_TO}/config:/harmony_node/config valyd8chain/harmony-node:latest /bin/bash`
+    ```
+3) Dump a config into the binded config folder:
+    ```
+    ./harmony config dump ./config/harmony.conf
+    ```
+4) Exit the container with `exit`
+5) `ls config` and you should see your `harmony.conf` file.
+
+### Edit the Config File
+
+There is one required change the config file to get it working with our Docker setup:
+1) Change the `DataDir` field to the `dbs` folder:
+    ```
+    [General]
+    DataDir = "./dbs"
+    ```
+
+You can now make any additional changes to the config file relevant to your node such turning pruning on/off.
+
+## Create the Logging Volume (optional but recommended)
+**Important**: If you skip this step, comment out the lines relevant to `harmony_logs` in `docker-compose.yml` when running your node
+
+If you want your log files to persist across restarts and rebuilds, you will need to create another Docker volume to store them.
+
+- `docker volume create harmony_logs`
+
+
+## Running the Validator Node
+if you have done everything correctly up to this point, then this is the easiest step:
+```
+docker-compose up -d
+```
