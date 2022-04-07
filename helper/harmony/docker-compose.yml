@@ -9,4 +9,6 @@ services:
       - ./harmony
       - "config"
       - "dump"
+      - "--network"
+      - "${NETWORK}"
       - "./config/harmony.conf"

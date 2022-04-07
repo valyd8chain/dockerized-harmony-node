@@ -118,9 +118,8 @@ First, create a directory to hold the config file: `mkdir config`
 From here, there are 2 ways to generate the config file:
 
 - Option A: Via Helper Docker Compose (easy way)
-    ```
-    cd helper/harmony && docker-compose run --rm generate_conf && cd ../..
-    ```
+    1) Edit the `NETWORK` environment variable in `helper/harmony/.env` to your desired network
+    2) `cd helper/harmony && docker-compose run --rm generate_conf && cd ../..`
 
 - Option B. Via Temp Container Bash Session:
     1) Bind the config directory and start another temporary container bash session:
@@ -129,7 +128,7 @@ From here, there are 2 ways to generate the config file:
         ```
     2) Dump a config into the binded config folder:
         ```
-        ./harmony config dump ./config/harmony.conf
+        ./harmony config dump --network {mainnet OR testnet} ./config/harmony.conf
         ```
     4) Exit the container with `exit`
 
