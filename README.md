@@ -107,17 +107,27 @@ It is uncertain how the requirements will change from using this repo and runnin
 
 ### Generate Config File
 
-1) Create a directory called config `mkdir config`
-2) Bind the config directory and start another temporary container bash session:
+First, create a directory to hold the config file: `mkdir config`
+
+From here, there are 2 ways to generate the config file:
+
+- Option A: Via Helper Docker Compose (easy way)
     ```
-    docker run --rm -t -i -v {PATH_TO}/config:/harmony_node/config valyd8chain/harmony-node:latest /bin/bash`
+    cd helper/harmony && docker-compose run --rm generate_conf && cd ../..
     ```
-3) Dump a config into the binded config folder:
-    ```
-    ./harmony config dump ./config/harmony.conf
-    ```
-4) Exit the container with `exit`
-5) `ls config` and you should see your `harmony.conf` file.
+
+- Option B. Via Temp Container Bash Session:
+    1) Bind the config directory and start another temporary container bash session:
+        ```
+        docker run --rm -t -i -v {PATH_TO}/config:/harmony_node/config valyd8chain/harmony-node:latest /bin/bash`
+        ```
+    2) Dump a config into the binded config folder:
+        ```
+        ./harmony config dump ./config/harmony.conf
+        ```
+    4) Exit the container with `exit`
+
+Now just `ls config` and you should see your `harmony.conf` file.
 
 ### Edit the Config File
 
