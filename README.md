@@ -10,7 +10,7 @@
 Harmony's current requirements for running without Docker are as follows:
 - 8 core CPU
 - 16GB memory
-- 1TB storage (if using pruned DB)
+- 1TB storage (if using pruned DB0)
 
 It is uncertain how the requirements will change from using this repo and running node in Docker.
 
@@ -129,6 +129,12 @@ There is one required change the config file to get it working with our Docker s
     ```
 
 You can now make any additional changes to the config file relevant to your node such turning pruning on/off.
+
+## Create the hmycli volume:
+The `hmy` CLI will store your wallet keys in `/root/.hmy_cli` within the container. You probably don't want to lose those so let's create a volume for them:
+```
+docker volume create hmycli
+```
 
 ## Create the Logging Volume (optional but recommended)
 **Important**: If you skip this step, comment out the lines relevant to `harmony_logs` in `docker-compose.yml` when running your node
