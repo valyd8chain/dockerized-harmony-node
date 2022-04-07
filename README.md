@@ -23,7 +23,9 @@ It is uncertain how the requirements will change from using this repo and runnin
 - Router Fowarding Ports 6000 and 9000 to host machine
 
 # Setup
-## Create BLS Keys:
+## BLS Keys:
+
+### Creating BLS Keys
 1) Create a Docker volume to persist our BLS Keys:
     ```
     docker volume create blskeys
@@ -45,6 +47,10 @@ It is uncertain how the requirements will change from using this repo and runnin
 4) Type `exit` to exit the container.
 
 5) Verify your blskeys have persistented in the `blskeys` volume by running the command in Step 2 again to create a new container with our `blskeys` volume. Once in the container, run `ls .hmy/blskeys/`. If you see your keys, everything is working as expected!
+
+### Import Existing BLSKeys
+
+TODO
 
 ## Clone Harmony DB:
 
