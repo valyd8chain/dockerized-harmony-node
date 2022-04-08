@@ -12,3 +12,9 @@ services:
       - "--network"
       - "${NETWORK}"
       - "./config/harmony.conf"
+  get_version:
+    container_name: get_version
+    image: valyd8chain/harmony-node:latest
+    entrypoint: 
+      - ./harmony
+      - "version"
