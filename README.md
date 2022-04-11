@@ -164,3 +164,6 @@ if you have done everything correctly up to this point, then this is the easiest
 ```
 docker-compose up -d
 ```
+
+## Checking Your Node
+Once you have your node container up and running, you can check on how things are working with `docker exec -it validator_node bin/bash`
