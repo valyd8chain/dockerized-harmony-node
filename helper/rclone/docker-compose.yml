@@ -25,7 +25,7 @@ services:
       - -L
       - --checksum
       - sync
-      - release:pub.harmony.one/${NETWORK}.min/harmony_db_${SHARD}
+      - release:pub.harmony.one/${NETWORK}.${DB_TYPE:-min}/harmony_db_${SHARD}
       - harmony_db_${SHARD}
       - --multi-thread-streams
       - "4"
