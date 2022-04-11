@@ -1,0 +1,31 @@
+version: '3.9'
+
+services:
+  validator_node:
+    container_name: validator_node
+    image: valyd8chain/harmony-node:latest
+    ports:
+      - "6000:6000/tcp"
+      - "9000:9000/tcp"
+    volumes:
+      - harmony_dbs:/harmony_node/dbs
+      - blskeys:/harmony_node/.hmy/blskeys
+      - harmony_logs:/harmony_node/latest
+      - hmycli:/root/.hmy_cli
+      - ./config:/harmony_node/config
+    networks:
+      - harmony-node
+    restart: always
+
+networks:
+  harmony-node:
+
+volumes:
+  harmony_dbs:
+    external: true
+  blskeys:
+    external: true
+  harmony_logs:
+    external: true
+  hmycli:
+    external: true
