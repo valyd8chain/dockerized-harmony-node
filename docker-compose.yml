@@ -16,6 +16,17 @@ services:
     networks:
       - harmony-node
     restart: always
+  prometheus:
+    container_name: prometheus
+    image: prom/prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./helper/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - harmony-node
+    depends_on:
+      - validator_node
 
 networks:
   harmony-node:
