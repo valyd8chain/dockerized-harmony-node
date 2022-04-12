@@ -12,6 +12,16 @@ services:
       - ./config:/config/rclone
       - harmony_dbs:/data
     command: listremotes
+    
+  get_db_size:
+    container_name: size
+    image: rclone/rclone:latest
+    volumes:
+      - ./config:/config/rclone
+    entrypoint:
+      - rclone
+      - size
+      - release:pub.harmony.one/${NETWORK}.${DB_TYPE:-min}/harmony_db_${SHARD}
 
   clone_harmony_db:
     container_name: clone_harmony_db
