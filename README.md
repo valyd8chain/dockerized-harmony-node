@@ -1,9 +1,13 @@
 
 # Table of Contents
+1) [Intro](#Intro)
 1) [Prerequistes](#Prerequistes)
 2) [Setup](#Setup)
 3) Maintenance and Updating
 4) [Disclaimer](#Disclaimer)
+
+# <a name="Intro">Intro</a>
+
 
 # <a name="Prerequistes">Prerequistes</a>
 ### Hardware
@@ -169,3 +173,4 @@ docker-compose up -d
 Once you have your node container up and running, you can check on how things are working with `docker exec -it validator_node bin/bash`
 
 # <a name="Disclaimer">Disclaimer</a>
+Use this at your own risk! This project is a proof of concept and experiment. The Harmony Team does not recommend running containerized nodes on their network due to the additional computational overhead. Your node may underperform, lose blocks, or fall of of sync if you use this without sufficient hardware.
