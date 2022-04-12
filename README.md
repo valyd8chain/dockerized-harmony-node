@@ -1,11 +1,11 @@
 
 # Table of Contents
-1) Prerequistes
-2) Setup
+1) [Prerequistes](#Prerequistes)
+2) [Setup](#Setup)
 3) Maintenance and Updating
-4) Disclaimer
+4) [Disclaimer](#Disclaimer)
 
-# Prerequistes
+# <a name="Prerequistes">Prerequistes</a>
 ### Hardware
 Harmony's current requirements for running without Docker are as follows:
 - 8 core CPU
@@ -22,7 +22,7 @@ It is uncertain how the requirements will change from using this repo and runnin
 - Ports 6000 and 9000 open on host machine
 - Router Fowarding Ports 6000 and 9000 to host machine
 
-# Setup
+# <a name="Setup">Setup</a>
 ## BLS Keys:
 
 ### Creating BLS Keys
@@ -167,3 +167,5 @@ docker-compose up -d
 
 ## Checking Your Node
 Once you have your node container up and running, you can check on how things are working with `docker exec -it validator_node bin/bash`
+
+# <a name="Disclaimer">Disclaimer</a>
