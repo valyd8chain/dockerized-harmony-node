@@ -16,7 +16,14 @@ Harmony's current requirements for running without Docker are as follows:
 - 16GB memory
 - 1TB storage (if using pruned DB0)
 
-It is uncertain how the requirements will change from using this repo and running node in Docker.
+However since Docker adds some overhead, these requirements are not sufficient. We are still in the experimental phase to determine the minimum hardware requirements. The table below is hardware we have tried:
+
+| Hardware         | Host OS             | CPU            | Number of Cores | RAM  | Shard0 Stays Synced | Shard0 Stays Synced with Pruning |
+| -----------      |---------------------| -------------- |--------------- | ----  | :-----------------: | :------------------------------: |
+| 2020 Mac Mini M1 | MacOS Monterey      | Apple M1       | 8 cores         | 16GB | ❌                  | ❌                               |
+| Custom Build     | Ubuntu 20.04 Server | AMD Ryzen 5900 | 12 cores        | 32GB | ✅                  | ?                                |
+
+If you have hardware you would like try and run a node in Docker on, let us know how it goes! And please submit a PR to add your hardware configuration to the table above!
 
 ### Software:
 - Docker
