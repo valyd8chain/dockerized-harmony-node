@@ -1,10 +1,11 @@
 
 # Table of Contents
 1) [Intro](#Intro)
-1) [Prerequistes](#Prerequistes)
-2) [Setup](#Setup)
-3) Maintenance and Updating
-4) [Disclaimer](#Disclaimer)
+2) [Prerequistes](#Prerequistes)
+3) [Setup](#Setup)
+4) Maintenance and Updating
+5) [Disclaimer](#Disclaimer)
+6) [Support](#Support)
 
 # <a name="Intro">Intro</a>
 Running apps in containers with Docker is awesome. All the app's dependencies come with and are isolated to the container and don't clutter up or damage the host machine. This makes installing and deploying very easy, which is ideal for decentralized blockchain technology as it allows more people to run nodes which in turn increases decentralization. Harmony One is absolutely awesome blockchain. It's wicked fast and transactions are cheap.
@@ -29,14 +30,16 @@ However since Docker adds some overhead, these requirements are not sufficient. 
 If you have hardware you would like try and run a node in Docker on, let us know how it goes! And please submit a PR to add your hardware configuration to the table above!
 
 ### Software:
-- Docker
-- Docker Compose
+- [Docker](https://docs.docker.com/get-docker/)
+- [Docker Compose](https://docs.docker.com/compose/install/)
 
 ### Network:
 - Ports 6000 and 9000 open on host machine
 - Router Fowarding Ports 6000 and 9000 to host machine
 
 # <a name="Setup">Setup</a>
+Note: All `docker` commands may need to prefaced with `sudo` if you are not the `root` user depending on your host OS.
+
 ## BLS Keys:
 
 ### Creating BLS Keys
@@ -204,4 +207,10 @@ Once you have your node container up and running, you can check on how things ar
 # <a name="Disclaimer">Disclaimer</a>
 Use this at your own risk! This project is a proof of concept and experiment. The Harmony Team does not recommend running containerized nodes on their network due to the additional computational overhead. Your node may underperform, lose blocks, or fall of of sync if you use this without sufficient hardware.
 
-I don't consider myself a Docker pro by any means, so if you have ideas to better this project, please feel free to reach out and/or submit a PR!
+I don't consider myself a Docker pro by any means, so if you have ideas to better this project, please feel free to reach out and/or submit a issue or PR!
+
+# <a name="Support">Support</a>
+If you would like to support this project, there's a few things you can do:
+1) Delegate to our Harmony ONE Validator [here](https://staking.harmony.one/validators/mainnet/one1f4ss7ekhd0jupg5w78s333ejw3ugrrumpjw6ja). Our validator node runs in Docker using this repository, so staking with us supports our validator node and thus supports this project.
+2) Contribute your knowledge to this project by opening issues and pull requests to make it better
+
