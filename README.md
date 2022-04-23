@@ -1,28 +1,45 @@
 
 # Table of Contents
-1) Prerequistes
-2) Setup
-3) Maintenance and Updating
-4) Disclaimer
+1) [Intro](#Intro)
+2) [Prerequistes](#Prerequistes)
+3) [Setup](#Setup)
+4) Maintenance and Updating
+5) [Disclaimer](#Disclaimer)
+6) [Support](#Support)
 
-# Prerequistes
+# <a name="Intro">Intro</a>
+Running apps in containers with Docker is awesome. All the app's dependencies come with and are isolated to the container and don't clutter up or damage the host machine. This makes installing and deploying very easy, which is ideal for decentralized blockchain technology as it allows more people to run nodes which in turn increases decentralization. Harmony One is absolutely awesome blockchain. It's wicked fast and transactions are cheap.
+
+
+But Harmony One doesn't have a Docker image for their nodes because of the worry about the extra overhead associated with running the node binary in Docker. But what would it take to get a node up and running and validating in Docker? Answering that question is the purpose of this repo. And spoiler alert, it can be done. Keep reading to find out how.
+
+# <a name="Prerequistes">Prerequistes</a>
 ### Hardware
 Harmony's current requirements for running without Docker are as follows:
 - 8 core CPU
 - 16GB memory
 - 1TB storage (if using pruned DB0)
 
-It is uncertain how the requirements will change from using this repo and running node in Docker.
+However since Docker adds some overhead, these requirements are not sufficient. We are still in the experimental phase to determine the minimum hardware requirements. The table below is hardware we have tried:
+
+| Hardware    | Host OS    | CPU      | Number of Cores | RAM  | Hard Drive | Shard0 Stays Synced | Shard0 Stays Synced with Pruning |
+| ----------- |------------| ---------|-----------------| ----- | -------------- | :-----------------: | :-------------------------: |
+| 2020 Mac Mini M1 | MacOS Monterey      | Apple M1        | 8 cores  | 16GB | 1 TB Flash SSD | ❌     | ❌     |
+| Custom Build     | Ubuntu 20.04 Server | AMD Ryzen 5900X | 12 cores | 32GB | 2 TB Samsung Evo 970 (M2 NVMe) | ✅   | ✅   |
+
+If you have hardware you would like try and run a node in Docker on, let us know how it goes! And please submit a PR to add your hardware configuration to the table above!
 
 ### Software:
-- Docker
-- Docker Compose
+- [Docker](https://docs.docker.com/get-docker/)
+- [Docker Compose](https://docs.docker.com/compose/install/)
 
 ### Network:
 - Ports 6000 and 9000 open on host machine
 - Router Fowarding Ports 6000 and 9000 to host machine
 
-# Setup
+# <a name="Setup">Setup</a>
+Note: All `docker` commands may need to prefaced with `sudo` if you are not the `root` user depending on your host OS.
+
 ## BLS Keys:
 
 ### Creating BLS Keys
@@ -50,7 +67,15 @@ It is uncertain how the requirements will change from using this repo and runnin
 
 ### Import Existing BLSKeys
 
-TODO
+Get your existing `.hmy/blskeys` direcotry onto your host machine with `scp` or other method of your choosing and place it in a directory `temp`. Then start a bash session in a temporary container with the `harmony-node` image mounting the `blskys` volume and using a binding for your `temp` directory:
+```
+docker run --rm -t -i -v blskeys:/harmony_node/.hmy/blskeys -v /{PATH_TO}/temp:/harmony_node/temp valyd8chain/harmony-node:latest /bin/bash
+```
+Once in the container bash session, just copy the files over:
+```
+cp /harmony_node/temp/blskeys/* /harmony_node/.hmy/blskeys/
+```
+Exit your container and then start a new one with the same command above then in the container run `ls /harmony_node/.hmy/blskeys` to verify your files have persisted in the volume.
 
 ## Clone Harmony DB:
 
@@ -151,6 +176,17 @@ The `hmy` CLI will store your wallet keys in `/root/.hmy_cli` within the contain
 docker volume create hmycli
 ```
 
+### Importing Existing Wallet
+This is basically the same process as importing your BLS Keys. Get your existing `.hmycli` direcotry onto your host machine with `scp` or other method of your choosing and place it in a directory `temp`. Then start a bash session in a temporary container with `harmony-node` image mounting the `hmycli` volume and using a binding for your `temp` directory:
+```
+docker run --rm -t -i -v hmycli:/root/.hmy_cli -v /{PATH_TO}/temp:/harmony_node/temp valyd8chain/harmony-node:latest /bin/bash
+```
+Once in the container bash session, just copy the files over:
+```
+cp -r /harmony_node/temp/.hmycli/* /root/.hmy_cli/
+```
+Exit your container and then start a new one with the same command above then in the container run `ls /root/.hmy_cli` to verify your files have persisted in the volume.
+
 ## Create the Logging Volume (optional but recommended)
 **Important**: If you skip this step, comment out the lines relevant to `harmony_logs` in `docker-compose.yml` when running your node
 
@@ -167,3 +203,14 @@ docker-compose up -d
 
 ## Checking Your Node
 Once you have your node container up and running, you can check on how things are working with `docker exec -it validator_node bin/bash`
+
+# <a name="Disclaimer">Disclaimer</a>
+Use this at your own risk! This project is a proof of concept and experiment. The Harmony Team does not recommend running containerized nodes on their network due to the additional computational overhead. Your node may underperform, lose blocks, or fall of of sync if you use this without sufficient hardware.
+
+I don't consider myself a Docker pro by any means, so if you have ideas to better this project, please feel free to reach out and/or submit a issue or PR!
+
+# <a name="Support">Support</a>
+If you would like to support this project, there's a few things you can do:
+1) Delegate to our Harmony ONE Validator [here](https://staking.harmony.one/validators/mainnet/one1f4ss7ekhd0jupg5w78s333ejw3ugrrumpjw6ja). Our validator node runs in Docker using this repository, so staking with us supports our validator node and thus supports this project.
+2) Contribute your knowledge to this project by opening issues and pull requests to make it better
+
