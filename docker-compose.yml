@@ -7,7 +7,8 @@ services:
     ports:
       - "6000:6000/tcp"
       - "9000:9000/tcp"
-      - "9900:9900/tcp"
+      - "5000:5000/tcp" # monitoring for Node Sync
+      - "9900:9900/tcp" # Metrics Port
     volumes:
       - harmony_dbs:/harmony_node/dbs
       - blskeys:/harmony_node/.hmy/blskeys
