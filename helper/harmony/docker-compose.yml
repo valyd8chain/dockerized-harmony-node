@@ -1,4 +1,4 @@
-version: '3.9'
+version: '3'
 services:
   generate_conf:
     container_name: generate_conf
@@ -10,7 +10,7 @@ services:
       - "config"
       - "dump"
       - "--network"
-      - "${NETWORK}"
+      - "mainnet" # mainnet or testnet
       - "./config/harmony.conf"
   get_version:
     container_name: get_version

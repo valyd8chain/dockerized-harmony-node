@@ -21,7 +21,8 @@ services:
     entrypoint:
       - rclone
       - size
-      - release:pub.harmony.one/${NETWORK}.${DB_TYPE:-min}/harmony_db_${SHARD}
+      # Update this line as needed for your desired DB
+      - release:pub.harmony.one/mainnet.snap/harmony_db_0
 
   clone_harmony_db:
     container_name: clone_harmony_db
@@ -35,8 +36,11 @@ services:
       - -L
       - --checksum
       - sync
-      - release:pub.harmony.one/${NETWORK}.${DB_TYPE:-min}/harmony_db_${SHARD}
-      - harmony_db_${SHARD}
+      # ---
+      # Update this section as needed for your desired DB
+      - release:pub.harmony.one/mainnet.snap/harmony_db_0
+      - harmony_db_0
+      # ---
       - --multi-thread-streams
       - "4"
       - --transfers=32

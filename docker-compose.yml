@@ -1,4 +1,4 @@
-version: '3.9'
+version: '3'
 
 services:
   validator_node:
@@ -7,6 +7,7 @@ services:
     ports:
       - "6000:6000/tcp"
       - "9000:9000/tcp"
+      - "9900:9900/tcp"
     volumes:
       - harmony_dbs:/harmony_node/dbs
       - blskeys:/harmony_node/.hmy/blskeys
@@ -16,20 +17,10 @@ services:
     networks:
       - harmony-node
     restart: always
-  prometheus:
-    container_name: prometheus
-    image: prom/prometheus
-    ports:
-      - "9090:9090"
-    volumes:
-      - ./helper/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
-    networks:
-      - harmony-node
-    depends_on:
-      - validator_node
 
 networks:
   harmony-node:
+    driver: bridge
 
 volumes:
   harmony_dbs:

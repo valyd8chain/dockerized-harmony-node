@@ -3,15 +3,15 @@
 1) [Intro](#Intro)
 2) [Prerequistes](#Prerequistes)
 3) [Setup](#Setup)
-4) Maintenance and Updating
+4) [Maintenance and Updating](#MaintenanceAndUpdating)
 5) [Disclaimer](#Disclaimer)
 6) [Support](#Support)
 
 # <a name="Intro">Intro</a>
-Running apps in containers with Docker is awesome. All the app's dependencies come with and are isolated to the container and don't clutter up or damage the host machine. This makes installing and deploying very easy, which is ideal for decentralized blockchain technology as it allows more people to run nodes which in turn increases decentralization. Harmony One is absolutely awesome blockchain. It's wicked fast and transactions are cheap.
+Running apps in containers with Docker is awesome. All the app's dependencies come with and are isolated to the container and don't clutter up the host machine. This makes installing and deploying very easy, which is ideal for decentralized blockchain technology as it allows more people to run nodes which in turn increases decentralization. Harmony One is absolutely awesome blockchain. It's wicked fast and transactions are cheap.
 
 
-But Harmony One doesn't have a Docker image for their nodes because of the worry about the extra overhead associated with running the node binary in Docker. But what would it take to get a node up and running and validating in Docker? Answering that question is the purpose of this repo. And spoiler alert, it can be done. Keep reading to find out how.
+But Docker does add a bit of computational overhead and Harmony One doesn't have a Docker image for their nodes because of the worry about the extra overhead associated with running a containerized node. But what would it take to get a node up and running and validating in Docker? Answering that question is the purpose of this repo. And spoiler alert, it can be done and we are doing it with our validator node. Keep reading to find out how.
 
 # <a name="Prerequistes">Prerequistes</a>
 ### Hardware
@@ -123,14 +123,13 @@ Exit your container and then start a new one with the same command above then in
             ```
 
 ### Clone Harmony DBs
-1) `cd helper/rclone`
-2) Create your `.env` file from the `.env_example` file provided: `cp .env_example .env`
-3) Edit your `.env` file to your desired Shard and network.
-4) Clone the Harmony DB:
+1) `cd helper/rclone`]
+2) Edit the `docker-compose.yml` file to your desired Shard and network.
+3) Clone the Harmony DB:
     - With Docker Compose: `docker-compose run --rm clone_harmony_db`
     - With Docker CLI: Docker Compose is easier just do that, trust me
-5) Repeat Steps 3-4 for any additional Harmony DBs needed
-6) Verify your `harmony_dbs` volume has persisted by running another bash session in temporary container from the `harmony-node` image.
+4) Repeat Steps 2-3 for any additional Harmony DBs needed
+5) Verify your `harmony_dbs` volume has persisted by running another bash session in temporary container from the `harmony-node` image.
     1) `docker run --rm -t -i -v harmony_dbs:/harmony_node/dbs valyd8chain/harmony-node:latest /bin/bash`
     2) Now in the container run `ls dbs/`. You should see directories for each Harmony DB that you cloned.
 
@@ -143,7 +142,7 @@ First, create a directory to hold the config file: `mkdir config`
 From here, there are 2 ways to generate the config file:
 
 - Option A: Via Helper Docker Compose (easy way)
-    1) Edit the `NETWORK` environment variable in `helper/harmony/.env` to your desired network
+    1) Edit `helper/harmony/docker-compose.yml` to your desired network (`mainnet` or `testnet`)
     2) `cd helper/harmony && docker-compose run --rm generate_conf && cd ../..`
 
 - Option B. Via Temp Container Bash Session:
@@ -195,14 +194,50 @@ If you want your log files to persist across restarts and rebuilds, you will nee
 - `docker volume create harmony_logs`
 
 
-## Running the Validator Node
+## Running the Node
 if you have done everything correctly up to this point, then this is the easiest step:
 ```
 docker-compose up -d
 ```
 
 ## Checking Your Node
-Once you have your node container up and running, you can check on how things are working with `docker exec -it validator_node bin/bash`
+Once you have your node container up and running, you can check on how things are working by running a bash session in your running container:
+```
+docker exec -it validator_node bin/bash
+```
+From this bash session, you can check your sync status block, create/edit your validator, and more!
+
+# <a name="MaintenanceAndUpdating">Maintenance and Updating</a>
+## Updating Your Node
+I'm maintaing the base image [valyd8chain/harmony-node](https://hub.docker.com/r/valyd8chain/harmony-node) via this [repository](https://github.com/valyd8chain/harmony-node-docker-image). When Harmony releases an new node binary, I will publish a new release of that image with the new binary. One the new image is published the steps for updating are as follows:
+
+Note: Steps are approx at this point since I haven't yet had a release to update to. Will update this with exact steps when the next update comes out. Generating a new config is not always required depending on the harmony release but it good practice to do it with every release.
+
+1) Make a backup copy of your config file
+    ```
+    cp ./config/harmony.conf ./config/harmony_old.conf
+    ```
+2) Pull the new image
+    ```
+    docker pull valyd8chain/harmony-node:latest
+    ```
+3) Generate a new config file:
+    ``` 
+    cd helper/harmony && docker-compose run --rm generate_conf && cd ../..
+    ```
+4) Update the `DataDir` field in the config file to the `dbs` folder:
+    ```
+    [General]
+    DataDir = "./dbs"
+    ```
+5) Restart your node container:
+    ```
+    docker-compose down && docker-compose up -d
+    ```
+Congratulations, your node is now updated!
+
+## Monitoring Your Node
+To monitor your node with Prometheus and Grafana, we've provided `helper/monitoring/docker-compose.yml` Please see the instructions [here](./helper/monitoring/README.md) to get your monitoring up and running.
 
 # <a name="Disclaimer">Disclaimer</a>
 Use this at your own risk! This project is a proof of concept and experiment. The Harmony Team does not recommend running containerized nodes on their network due to the additional computational overhead. Your node may underperform, lose blocks, or fall of of sync if you use this without sufficient hardware.
@@ -210,7 +245,7 @@ Use this at your own risk! This project is a proof of concept and experiment. Th
 I don't consider myself a Docker pro by any means, so if you have ideas to better this project, please feel free to reach out and/or submit a issue or PR!
 
 # <a name="Support">Support</a>
-If you would like to support this project, there's a few things you can do:
-1) Delegate to our Harmony ONE Validator [here](https://staking.harmony.one/validators/mainnet/one1f4ss7ekhd0jupg5w78s333ejw3ugrrumpjw6ja). Our validator node runs in Docker using this repository, so staking with us supports our validator node and thus supports this project.
+If you would like to support this project, first of all, thank you! Please consider one of the following to support us:
+1) Delegate to our Harmony ONE Validator [here](https://staking.harmony.one/validators/mainnet/one1f4ss7ekhd0jupg5w78s333ejw3ugrrumpjw6ja). Our validator node runs in Docker using this repository as of April 25th, 2022, so staking with us supports our validator node and thus supports this project.
 2) Contribute your knowledge to this project by opening issues and pull requests to make it better
 
