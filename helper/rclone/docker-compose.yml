@@ -1,0 +1,49 @@
+version: '3'
+services:
+  get_version:
+    container_name: get_version
+    image: rclone/rclone:latest
+    command: version
+
+  list_remotes:
+    container_name: list_remotes
+    image: rclone/rclone:latest
+    volumes:
+      - ./config:/config/rclone
+      - harmony_dbs:/data
+    command: listremotes
+    
+  get_db_size:
+    container_name: size
+    image: rclone/rclone:latest
+    volumes:
+      - ./config:/config/rclone
+    entrypoint:
+      - rclone
+      - size
+      # Update this line as needed for your desired DB
+      - release:pub.harmony.one/mainnet.snap/harmony_db_0
+
+  clone_harmony_db:
+    container_name: clone_harmony_db
+    image: rclone/rclone:latest
+    volumes:
+      - ./config:/config/rclone
+      - harmony_dbs:/data
+    entrypoint: 
+      - rclone
+      - -P
+      - -L
+      - --checksum
+      - sync
+      # ---
+      # Update this section as needed for your desired DB
+      - release:pub.harmony.one/mainnet.snap/harmony_db_0
+      - harmony_db_0
+      # ---
+      - --multi-thread-streams
+      - "4"
+      - --transfers=32
+volumes:
+  harmony_dbs:
+    external: true

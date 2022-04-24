@@ -1,1 +1,4 @@
 .env
+config/
+.DS_Store
+prometheus.yml
