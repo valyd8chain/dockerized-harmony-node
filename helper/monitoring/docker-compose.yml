@@ -5,6 +5,8 @@ services:
     image: prom/node-exporter:latest
     container_name: node-exporter
     restart: always
+    ports:
+      - "9100:9100"
     volumes:
       - /proc:/host/proc:ro
       - /sys:/host/sys:ro
@@ -14,8 +16,6 @@ services:
       - '--path.rootfs=/rootfs'
       - '--path.sysfs=/host/sys'
       - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
-    expose:
-      - 9100
     networks:
       - monitoring
   prometheus:
