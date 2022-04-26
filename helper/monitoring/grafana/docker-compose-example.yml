@@ -1,0 +1,22 @@
+version: "3"
+
+services:
+  grafana:
+    container_name: grafana
+    restart: always
+    image: grafana/grafana-oss:latest
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana-storage:/var/lib/grafana
+    environment:
+      - GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-simple-json-datasource
+    networks:
+      - monitoring
+
+volumes:
+  grafana-storage:
+  
+networks:
+  monitoring:
+    driver: bridge

@@ -2,3 +2,7 @@
 config/
 .DS_Store
 prometheus.yml
+monitoring/docker-compose.yml
+monitoring/grafana/docker-compose.yml
+monitoring/prometheus/docker-compose.yml
+monitoring/node-exporter/docker-compose.yml
