@@ -37,6 +37,10 @@ If you have hardware you would like try and run a node in Docker on, let us know
 - Ports 6000 and 9000 open on host machine
 - Router Fowarding Ports 6000 and 9000 to host machine
 
+If Self-Hosting:
+- 300 MBPS+ internet connection (I am using 1 GBPS Fiber)
+- Minimum 4TB/month data allowance.
+
 # <a name="Setup">Setup</a>
 Note: All `docker` commands may need to prefaced with `sudo` if you are not the `root` user depending on your host OS.
 
