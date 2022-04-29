@@ -25,7 +25,7 @@ However since Docker adds some overhead, these requirements are not sufficient. 
 | Hardware    | Host OS    | CPU      | Number of Cores | RAM  | Hard Drive | Shard0 Stays Synced | Shard0 Stays Synced with Pruning |
 | ----------- |------------| ---------|-----------------| ----- | -------------- | :-----------------: | :-------------------------: |
 | 2020 Mac Mini M1 | MacOS Monterey      | Apple M1        | 8 cores  | 16GB | 1 TB Flash SSD | ❌     | ❌     |
-| Custom Build     | Ubuntu 20.04 Server | AMD Ryzen 5900X | 12 cores (24 threads) | 32GB | 2 TB Samsung Evo 970 (M2 NVMe) | ✅   | ✅   |
+| [Custom Build](https://pcpartpicker.com/user/valyd8chain1/saved/#view=RsPgnQ)     | Ubuntu 20.04 Server | AMD Ryzen 5900X | 12 cores (24 threads) | 32GB | 2 TB Samsung Evo 970 (M2 NVMe) | ✅   | ✅   |
 
 If you have hardware you would like try and run a node in Docker on, let us know how it goes! And please submit a PR to add your hardware configuration to the table above!
 
