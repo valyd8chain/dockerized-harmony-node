@@ -1,31 +1,17 @@
 # Monitoring Your Node
+Monitoring your node is easy with Docker and the Prometheus, Node Exporter, and Grafana Docker Images.
 
-Monitoring your node is easy with Docker and the Prometheus and Grafana Docker Images.
+There are 3 different tools to monitor your node.
+1) [Prometheus](./prometheus/README.md)
+2) [Node Exporter](./node-exporter/README.md)
+3) [Grafana](./grafana/README.md)
 
-## Setup
-#### **Preface:** 
-This guide assumes you are running your Prometheus and Grafana Docker containers on the same local network as your Harmony node. If this is not your case, you will need to do addtional setup with your node's firewall to open the ports 5000 and 9900 to make them accessible. You will also want to your node only allow connections from your Prometheus host machine's IP address on those ports. That way, no one on the interent can scrape your node metrics data and potentially DDOS your node. If you have gone through this process, please consider submitting a PR with the steps to take to improve this guide.
+How you configure the 3 will depend a lot on your individual setup. For example, you could run your Harmony Node, Prometheus, Node Exporter and Grafana all on the same machine. Or you could have just your Harmony Node and Node Exporter on one machine, then Prometheus and Grafana on a different one. Since these setups can really vary, we have provided 3 separate `docker-compose-example.yml` files for each service. Any of them will work as is after you run 
+```
+cp docker-compose-example.yml docker-compose.yml
+```
 
-### Prometheus
-1) Make a copy of the `prometheus_example.yml` file and name it `prometheus.yml`.
-    ```
-    cp prometheus_example.yml prometheus.yml
-    ```
-2) Then change `harmony-node` job static config targets to the IP address of your Harmony Node:
-    ```
-    - job_name: "harmony-node"
-        # metrics_path defaults to '/metrics'
-        # scheme defaults to 'http'.
-        static_configs:
-        - targets: ["{your_node_ip}:9900", "{your_node_ip}:5000"]
-    ```
-3) Run `docker-compose up -d` to start your Prometheus and Grafana instance.
+You also combine the contents of these 3 example files as needed for your situation.
 
-4) Test your Prometheus instance by following the steps in this [section](https://docs.harmony.one/home/network/validators/monitoring/prometheus-and-grafana#check-metrics-1) of the Harmony Prometheus setup docs.
-
-
-### Grafana
-1) Grafana needs to be configured once up and running. To do this, follow the steps [here](https://docs.harmony.one/home/network/validators/monitoring/prometheus-and-grafana#add-prometheus-datasource) from the Harmony Grafana setup docs.
-
-2) Add any additional charts and metrics as you see fit!
+If you are running these across multiple machines and the machines are not on the same local network, make sure set up your firewall accordingly and only allow connections from your IP addresses on the needed ports. That way, no one on the internet can scrape your node metrics data and/or potentially DDOS your node.
 

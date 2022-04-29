@@ -26,6 +26,11 @@ scrape_configs:
     static_configs:
       - targets: ["{your_node_ip}:9900", "{your_node_ip}:5000"]
 
+  # Uncomment if you are using Node Exporter
+  # - job_name: "node"
+  #   static_configs:
+  #   - targets: ["{your_node_ip}:9100"]
+
   # Might as well have prometheus montior itself too
   - job_name: "prometheus"
     # metrics_path defaults to '/metrics'
