@@ -10,7 +10,10 @@ Grafana is a great tool for data visualization of your Prometheus metrics. To le
     ```
     docker-compose up -d
     ```
+3) Add Prometheus as a Data Source
+    - Go to `http://{YOUR_GRAFANA_IP:3000}/datasources` and add your Prometheus instance as a data source.
 
-3) Grafana needs to be configured once up and running. To do this, follow the steps [here](https://docs.harmony.one/home/network/validators/monitoring/prometheus-and-grafana#add-prometheus-datasource) from the Harmony Grafana setup docs.
-
-4) Add any additional charts and metrics as you see fit!
+4) Add some Dashboards! Here are a couple that I am using:
+    - [Harmony Node Dashboard](https://docs.harmony.one/home/network/validators/monitoring/prometheus-and-grafana#add-prometheus-datasource)
+    - [Node Exporter Full Dashboard](https://grafana.com/grafana/dashboards/1860)
+    - Have a dashboard you really like using to monitor your node? Create a PR and add it to this list!
