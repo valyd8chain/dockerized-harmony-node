@@ -1,4 +1,4 @@
 .env
-./config/
+/config/
 .DS_Store
 rclone.conf
