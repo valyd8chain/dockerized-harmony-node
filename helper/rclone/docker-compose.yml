@@ -22,7 +22,7 @@ services:
       - rclone
       - size
       # Update this line as needed for your desired DB
-      - release:pub.harmony.one/mainnet.snap/harmony_db_0
+      - storj:pub.harmony.one/mainnet.snap/harmony_db_0
 
   clone_harmony_db:
     container_name: clone_harmony_db
@@ -38,7 +38,7 @@ services:
       - sync
       # ---
       # Update this section as needed for your desired DB
-      - release:pub.harmony.one/mainnet.snap/harmony_db_0
+      - storj:pub.harmony.one/mainnet.snap/harmony_db_0
       - harmony_db_0
       # ---
       - --multi-thread-streams
