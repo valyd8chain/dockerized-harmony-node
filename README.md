@@ -207,7 +207,7 @@ docker-compose up -d
 ## Checking Your Node
 Once you have your node container up and running, you can check on how things are working by running a bash session in your running container:
 ```
-docker exec -it validator_node bin/bash
+docker exec -it validator_node /bin/bash
 ```
 From this bash session, you can check your sync status block, create/edit your validator, and more!
 
@@ -234,9 +234,9 @@ Note: Steps are approx at this point since I haven't yet had a release to update
     [General]
     DataDir = "./dbs"
     ```
-5) Restart your node container:
+5) Restart your node container, pull the latest from this repo, and start it up again:
     ```
-    docker-compose down && docker-compose up -d
+    docker-compose down && git pull && docker-compose up -d
     ```
 Congratulations, your node is now updated!
 
