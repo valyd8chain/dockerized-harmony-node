@@ -13,7 +13,6 @@ services:
       - harmony_dbs:/harmony_node/dbs
       - blskeys:/harmony_node/.hmy/blskeys
       - harmony_logs:/harmony_node/latest
-      - hmycli:/root/.hmy_cli
       - ./config:/harmony_node/config
     networks:
       - harmony-node
