@@ -51,9 +51,9 @@ Note: All `docker` commands may need to prefaced with `sudo` if you are not the 
     ```
     docker volume create blskeys
     ```
-2) Start a bash session with a temporary container the harmony-node image so we can create BLS Keys and write them to our `blskeys` volume.
+2) Start a terminal session with a temporary container the harmony-node image so we can create BLS Keys and write them to our `blskeys` volume.
     ```
-    docker run --rm -t -i -v blskeys:/harmony_node/.hmy/blskeys valyd8chain/harmony-node:latest /bin/bash
+    docker run --rm -t -i -v blskeys:/harmony_node/.hmy/blskeys valyd8chain/harmony-node:latest /bin/ash
     ```
 
 3) Now in container, either
@@ -71,11 +71,11 @@ Note: All `docker` commands may need to prefaced with `sudo` if you are not the 
 
 ### Import Existing BLSKeys
 
-Get your existing `.hmy/blskeys` direcotry onto your host machine with `scp` or other method of your choosing and place it in a directory `temp`. Then start a bash session in a temporary container with the `harmony-node` image mounting the `blskys` volume and using a binding for your `temp` directory:
+Get your existing `.hmy/blskeys` direcotry onto your host machine with `scp` or other method of your choosing and place it in a directory `temp`. Then start a terminal session in a temporary container with the `harmony-node` image mounting the `blskys` volume and using a binding for your `temp` directory:
 ```
-docker run --rm -t -i -v blskeys:/harmony_node/.hmy/blskeys -v /{PATH_TO}/temp:/harmony_node/temp valyd8chain/harmony-node:latest /bin/bash
+docker run --rm -t -i -v blskeys:/harmony_node/.hmy/blskeys -v /{PATH_TO}/temp:/harmony_node/temp valyd8chain/harmony-node:latest /bin/ash
 ```
-Once in the container bash session, just copy the files over:
+Once in the container terminal session, just copy the files over:
 ```
 cp /harmony_node/temp/blskeys/* /harmony_node/.hmy/blskeys/
 ```
@@ -133,8 +133,8 @@ Exit your container and then start a new one with the same command above then in
     - With Docker Compose: `docker-compose run --rm clone_harmony_db`
     - With Docker CLI: Docker Compose is easier just do that, trust me
 4) Repeat Steps 2-3 for any additional Harmony DBs needed
-5) Verify your `harmony_dbs` volume has persisted by running another bash session in temporary container from the `harmony-node` image.
-    1) `docker run --rm -t -i -v harmony_dbs:/harmony_node/dbs valyd8chain/harmony-node:latest /bin/bash`
+5) Verify your `harmony_dbs` volume has persisted by running another terminal session in temporary container from the `harmony-node` image.
+    1) `docker run --rm -t -i -v harmony_dbs:/harmony_node/dbs valyd8chain/harmony-node:latest /bin/ash`
     2) Now in the container run `ls dbs/`. You should see directories for each Harmony DB that you cloned.
 
 ## Harmony Config File
@@ -149,10 +149,10 @@ From here, there are 2 ways to generate the config file:
     1) Edit `helper/harmony/docker-compose.yml` to your desired network (`mainnet` or `testnet`)
     2) `cd helper/harmony && docker-compose run --rm generate_conf && cd ../..`
 
-- Option B. Via Temp Container Bash Session:
-    1) Bind the config directory and start another temporary container bash session:
+- Option B. Via Temp Container Terminal Session:
+    1) Bind the config directory and start another temporary container terminal session:
         ```
-        docker run --rm -t -i -v {PATH_TO}/config:/harmony_node/config valyd8chain/harmony-node:latest /bin/bash`
+        docker run --rm -t -i -v {PATH_TO}/config:/harmony_node/config valyd8chain/harmony-node:latest /bin/ash`
         ```
     2) Dump a config into the binded config folder:
         ```
@@ -180,11 +180,11 @@ docker volume create hmycli
 ```
 
 ### Importing Existing Wallet
-This is basically the same process as importing your BLS Keys. Get your existing `.hmycli` direcotry onto your host machine with `scp` or other method of your choosing and place it in a directory `temp`. Then start a bash session in a temporary container with `harmony-node` image mounting the `hmycli` volume and using a binding for your `temp` directory:
+This is basically the same process as importing your BLS Keys. Get your existing `.hmycli` direcotry onto your host machine with `scp` or other method of your choosing and place it in a directory `temp`. Then start a terminal session in a temporary container with `harmony-node` image mounting the `hmycli` volume and using a binding for your `temp` directory:
 ```
-docker run --rm -t -i -v hmycli:/root/.hmy_cli -v /{PATH_TO}/temp:/harmony_node/temp valyd8chain/harmony-node:latest /bin/bash
+docker run --rm -t -i -v hmycli:/root/.hmy_cli -v /{PATH_TO}/temp:/harmony_node/temp valyd8chain/harmony-node:latest /bin/ash
 ```
-Once in the container bash session, just copy the files over:
+Once in the container terminal session, just copy the files over:
 ```
 cp -r /harmony_node/temp/.hmycli/* /root/.hmy_cli/
 ```
@@ -205,11 +205,11 @@ docker-compose up -d
 ```
 
 ## Checking Your Node
-Once you have your node container up and running, you can check on how things are working by running a bash session in your running container:
+Once you have your node container up and running, you can check on how things are working by running a terminal session in your running container:
 ```
-docker exec -it validator_node bin/bash
+docker exec -it validator_node bin/ash
 ```
-From this bash session, you can check your sync status block, create/edit your validator, and more!
+From this terminal session, you can check your sync status block, create/edit your validator, and more!
 
 # <a name="MaintenanceAndUpdating">Maintenance and Updating</a>
 ## Updating Your Node
