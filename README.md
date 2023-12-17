@@ -234,9 +234,9 @@ Note: Steps are approx at this point since I haven't yet had a release to update
     [General]
     DataDir = "./dbs"
     ```
-5) Restart your node container:
+5) Restart your node container, pull the latest from this repo, and start it up again:
     ```
-    docker-compose down && docker-compose up -d
+    docker-compose down && git pull && docker-compose up -d
     ```
 Congratulations, your node is now updated!
 
